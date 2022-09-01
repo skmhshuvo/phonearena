@@ -7,7 +7,13 @@ const loadData = async(search) => {
 const displayData = phones => {
     const phonesContainer = document.querySelector('.phones-container');
     phonesContainer.innerHTML = '';
-    phones = phones.slice(0, 20)
+    const loadMore = document.getElementById('load-more');
+    if(phones.length > 10) {
+        phones = phones.slice(0, 20);
+        loadMore.classList.remove('d-none');
+    } else {
+        loadMore.classList.add('d-none');
+    }
     phones.forEach(phone => {
         const phoneCard = document.createElement('div');
         phoneCard.classList.add('col');
@@ -25,11 +31,26 @@ const displayData = phones => {
     spinner(false);
 }
 
-const search = () => {
+const searchProcess = dataLimit => {
     const searchInput = document.querySelector('#search-input');
     loadData(searchInput.value)
     spinner(true);
 }
+
+
+document.getElementById('search-btn').addEventListener('click', ()=>{
+    searchProcess(10);
+});
+
+document.getElementById('search-btn').addEventListener('click', ()=>{
+    searchProcess(10);
+});
+
+document.getElementById('search-input').addEventListener('keypress', (e)=> {
+    if(e.key === 'Enter'){
+        searchProcess(10);
+    }
+})
 
 const spinner = (isLoading) => {
     if(isLoading){
