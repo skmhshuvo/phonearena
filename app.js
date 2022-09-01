@@ -22,6 +22,7 @@ const displayData = (phones, dataLimit) => {
                     <img src="${phone.image}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">${phone.phone_name}</h5>
+                        <button type="button" class="btn btn-primary" onclick="loadPhoneDetails('${phone.slug}')" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
                     </div>
                 </div>
             `;
@@ -59,4 +60,17 @@ const spinner = (isLoading) => {
         const spinClass = document.querySelector('.spinner');
         spinClass.classList.add('d-none');
     }
+}
+
+
+const loadPhoneDetails = async id => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json();
+    console.log(data.data);
+    displayPhoneDetails(data.data);
+}
+
+const displayPhoneDetails = phone => {
+    const modalTitle = document.querySelector('.modal-title');
+    modalTitle.textContent = phone.name;
 }
